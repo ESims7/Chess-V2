@@ -251,60 +251,81 @@ public class Board {
         chessboard[startingRow][startingColumn] = null;
 
         if (pawnPromotion) {
-            String pieceToPromoteTo = selectPromotionPiece();
-            if (destinationRow == 0) {
-                if (pieceToPromoteTo.equals("queen")) {
-                    chessboard[destinationRow][destinationColumn] = new Queen("White", destinationRow, destinationColumn);
-                }
-                if (pieceToPromoteTo.equals("rook")) {
-                    chessboard[destinationRow][destinationColumn] = new Rook("White", destinationRow, destinationColumn);
-                }
-                if (pieceToPromoteTo.equals("knight")) {
-                    chessboard[destinationRow][destinationColumn] = new Knight("White", destinationRow, destinationColumn);
-                }
-                if (pieceToPromoteTo.equals("bishop")) {
-                    chessboard[destinationRow][destinationColumn] = new Bishop("White", destinationRow, destinationColumn);
-                }
-            }
-            else {
-                if (pieceToPromoteTo.equals("queen")) {
-                    chessboard[destinationRow][destinationColumn] = new Queen("Black", destinationRow, destinationColumn);
-                }
-                if (pieceToPromoteTo.equals("rook")) {
-                    chessboard[destinationRow][destinationColumn] = new Rook("Black", destinationRow, destinationColumn);
-                }
-                if (pieceToPromoteTo.equals("knight")) {
-                    chessboard[destinationRow][destinationColumn] = new Knight("Black", destinationRow, destinationColumn);
-                }
-                if (pieceToPromoteTo.equals("bishop")) {
-                    chessboard[destinationRow][destinationColumn] = new Queen("Black", destinationRow, destinationColumn);
-                }
-            }
+            promotePiece(destinationRow, destinationColumn);
         }
 
         if (isCastling) {
             if (castlingQueenside) {
-                if (getPlayerToMove().equals("White")) {
-                    chessboard[7][3] = chessboard[7][0];
-                    chessboard[7][0] = null;
-                }
-                else {
-                    chessboard[0][3] = chessboard[0][0];
-                    chessboard[0][0] = null;
-                }
+                castleQueenside();
+
             }
             else {
-                if (getPlayerToMove().equals("White")) {
-                    chessboard[7][5] = chessboard[7][7];
-                    chessboard[7][7] = null;
-                }
-                else {
-                    chessboard[0][5] = chessboard[0][7];
-                    chessboard[0][7] = null;
-                }
+                castleKingSide();
             }
         }
 
+    }
+
+    private void castleKingSide() {
+        if (getPlayerToMove().equals("White")) {
+            chessboard[7][5] = chessboard[7][7];
+            chessboard[7][7] = null;
+            chessboard[7][5].setRow(7);
+            chessboard[7][5].setColumn(5);
+        }
+        else {
+            chessboard[0][5] = chessboard[0][7];
+            chessboard[0][7] = null;
+            chessboard[0][5].setRow(0);
+            chessboard[0][5].setColumn(5);
+        }
+    }
+
+    private void castleQueenside() {
+        if (getPlayerToMove().equals("White")) {
+            chessboard[7][3] = chessboard[7][0];
+            chessboard[7][0] = null;
+            chessboard[7][3].setRow(7);
+            chessboard[7][3].setColumn(3);
+        }
+        else {
+            chessboard[0][3] = chessboard[0][0];
+            chessboard[0][0] = null;
+            chessboard[0][3].setRow(0);
+            chessboard[0][3].setColumn(3);
+        }
+    }
+
+    private void promotePiece(int destinationRow, int destinationColumn) {
+        String pieceToPromoteTo = selectPromotionPiece();
+        if (destinationRow == 0) {
+            if (pieceToPromoteTo.equals("queen")) {
+                chessboard[destinationRow][destinationColumn] = new Queen("White", destinationRow, destinationColumn);
+            }
+            if (pieceToPromoteTo.equals("rook")) {
+                chessboard[destinationRow][destinationColumn] = new Rook("White", destinationRow, destinationColumn);
+            }
+            if (pieceToPromoteTo.equals("knight")) {
+                chessboard[destinationRow][destinationColumn] = new Knight("White", destinationRow, destinationColumn);
+            }
+            if (pieceToPromoteTo.equals("bishop")) {
+                chessboard[destinationRow][destinationColumn] = new Bishop("White", destinationRow, destinationColumn);
+            }
+        }
+        else {
+            if (pieceToPromoteTo.equals("queen")) {
+                chessboard[destinationRow][destinationColumn] = new Queen("Black", destinationRow, destinationColumn);
+            }
+            if (pieceToPromoteTo.equals("rook")) {
+                chessboard[destinationRow][destinationColumn] = new Rook("Black", destinationRow, destinationColumn);
+            }
+            if (pieceToPromoteTo.equals("knight")) {
+                chessboard[destinationRow][destinationColumn] = new Knight("Black", destinationRow, destinationColumn);
+            }
+            if (pieceToPromoteTo.equals("bishop")) {
+                chessboard[destinationRow][destinationColumn] = new Queen("Black", destinationRow, destinationColumn);
+            }
+        }
     }
 
     private String selectPromotionPiece() {
